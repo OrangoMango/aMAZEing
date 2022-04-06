@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="aMAZEing:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/aMAZEing_jar</output-path>
+    <root id="archive" name="aMAZEing.jar">
+      <element id="module-output" name="aMAZEing" />
+    </root>
+  </artifact>
+</component>
