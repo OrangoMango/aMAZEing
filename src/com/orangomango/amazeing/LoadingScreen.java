@@ -1,11 +1,12 @@
 package com.orangomango.amazeing;
 
-import com.orangomango.amazeing.ui.event.FinishedEvent;
 import javafx.stage.Stage;
+import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.layout.GridPane;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.Label;
+import javafx.scene.control.Alert;
 import javafx.concurrent.Task;
 
 import java.net.*;
@@ -31,11 +32,33 @@ public class LoadingScreen {
         this.onFinish = ev;
     }
 
-    private void downloadFile(String link, String path) {
+    private static void deleteDirectory(File directoryToBeDeleted) {
+        File[] allContents = directoryToBeDeleted.listFiles();
+        if (allContents != null) {
+            for (File file : allContents) {
+                deleteDirectory(file);
+            }
+        }
+        directoryToBeDeleted.delete();
+    }
+
+    private static void downloadFile(String link, String path, Task task) {
+        if (task.isCancelled()){
+            return;
+        }
         try (InputStream in = new URL(link).openStream()) {
             Files.copy(in, Paths.get(path));
         } catch (IOException ex) {
-            ex.printStackTrace();
+            task.cancel();
+            Platform.runLater(() -> {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Internet error");
+                alert.setHeaderText("Connection error!");
+                alert.setContentText(ex.getMessage());
+                alert.showAndWait();
+                deleteDirectory(new File(GAME_HOME));
+                System.exit(1);
+            });
         }
     }
 
@@ -49,13 +72,12 @@ public class LoadingScreen {
         Task<Object> task = new Task<Object>(){
             @Override
             protected Object call() throws Exception{
-                String home = System.getProperty("user.home");
                 updateProgress(0, 2);
                 updateMessage("Downloading spritesheet...");
-                downloadFile("https://github.com/OrangoMango/aMAZEing/raw/main/resources/spritesheet.png", GAME_HOME+File.separator+"resources"+File.separator+"spritesheet.png");
+                downloadFile("https://www.github.com/OrangoMango/aMAZEing/raw/master/resources/spritesheet.png", GAME_HOME+File.separator+"resources"+File.separator+"spritesheet.png", this);
                 updateProgress(1, 2);
                 updateMessage("Downloading font...");
-                downloadFile("https://github.com/OrangoMango/aMAZEing/raw/main/resources/main_font.ttf",GAME_HOME+File.separator+ "resources"+File.separator+"main_font.ttf");
+                downloadFile("https://www.github.com/OrangoMango/aMAZEing/raw/master/resources/main_font.ttf",GAME_HOME+File.separator+ "resources"+File.separator+"main_font.ttf", this);
                 updateProgress(2, 2);
                 updateMessage("Done.");
                 Thread.sleep(1000);
