@@ -2,6 +2,8 @@ package com.orangomango.amazeing.profile;
 
 import java.io.*;
 
+import static com.orangomango.amazeing.Main.GAME_HOME;
+
 public class Profile {
     
     private static void checkAndCreateDir(String directory){
@@ -11,10 +13,9 @@ public class Profile {
         }
     }
     
-    private static void prepareDirectory(){
-        String home = System.getProperty("user.home");
-        checkAndCreateDir(home+File.separator+".amazeing");
-        checkAndCreateDir(home+File.separator+".amazeing"+File.separator+ "resources");
-        checkAndCreateDir(home+File.separator+".amazeing"+File.separator+"profiles");
+    public static void prepareDirectory(){
+        checkAndCreateDir(GAME_HOME);
+        checkAndCreateDir(GAME_HOME+File.separator+ "resources");
+        checkAndCreateDir(GAME_HOME+File.separator+"profiles");
     }
 }

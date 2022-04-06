@@ -7,6 +7,8 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.*;
 import javafx.scene.layout.TilePane;
 
+import java.io.File;
+
 import com.orangomango.amazeing.ui.scene.*;
 
 /**
@@ -20,14 +22,32 @@ public class Main extends Application {
     public static final String VERSION = "1.0";
     public static final int DEFAULT_WIDTH = 800;
     public static final int DEFAULT_HEIGHT = 500;
-    public static final String MAIN_FONT = "file:///C:/Users/Khloud/OneDrive/Documents/NetBeansProjects/aMAZEing/src/resources/main_font.ttf";
-    public static final String SPRITESHEET = "file:///C:/Users/Khloud/OneDrive/Documents/NetBeansProjects/aMAZEing/src/resources/spritesheet.png";
+    public static final String GAME_HOME = System.getProperty("user.home")+ File.separator+".amazeing";
+    public static final String MAIN_FONT;
+    public static final String SPRITESHEET;
     /**
      * Game Frames Per Second
      */
     public static final double FPS = 100;
     private Stage stage;
     public static Screens CURRENT_SCREEN = Screens.HOME;
+
+    static {
+        MAIN_FONT = "file:///" + convertSlash(GAME_HOME+File.separator+"resources/main_font.ttf");
+        SPRITESHEET = "file:///" + convertSlash(GAME_HOME+File.separator+"resources/spritesheet.png");
+    }
+
+    private static String convertSlash(String input){
+        StringBuilder out = new StringBuilder();
+        for (char c : input.toCharArray()){
+            if (Character.toString(c).equals("\\")){
+                out.append("/");
+            } else {
+                out.append(c);
+            }
+        }
+        return out.toString();
+    }
 
     public static void main(String[] args) {
         System.out.println(System.getProperty("user.home"));
@@ -37,11 +57,8 @@ public class Main extends Application {
     @Override
     public void start(Stage stage) {
         this.stage = stage;
-        stage.setTitle("aMAZEing by OrangoMango v" + VERSION);
+        stage.setTitle("Downloading content - aMAZEing");
 
-        Canvas canvas = new Canvas(DEFAULT_WIDTH, DEFAULT_HEIGHT);
-        canvas.setFocusTraversable(true);
-        updateCanvas(canvas);
 		/*this.stage.widthProperty().addListener((o, oldV, newV) -> {
 			canvas.setWidth((double)newV);
 			updateCanvas(canvas);
@@ -50,12 +67,20 @@ public class Main extends Application {
 			canvas.setHeight((double)newV);
 			updateCanvas(canvas);
 		});*/
+
+        LoadingScreen loading = new LoadingScreen(this.stage);
+        loading.setOnFinish(() -> {
+            Stage gameStage = new Stage();
+            gameStage.setTitle("aMAZEing by OrangoMango v" + VERSION);
+            Canvas canvas = new Canvas(DEFAULT_WIDTH, DEFAULT_HEIGHT);
+            canvas.setFocusTraversable(true);
+            updateCanvas(canvas);
+            gameStage.setScene(new Scene(new TilePane(canvas), DEFAULT_WIDTH, DEFAULT_HEIGHT));
+            gameStage.show();
+        });
         
-        stage.setScene(new Scene(new TilePane(canvas), DEFAULT_WIDTH, DEFAULT_HEIGHT));
-        //LoadingScreen loading = new LoadingScreen();
-        
-        //stage.initStyle(StageStyle.UNDECORATED);
-        //stage.setScene(loading.getScene());
+        stage.initStyle(StageStyle.UNDECORATED);
+        stage.setScene(loading.getScene());
         stage.show();
     }
 
