@@ -61,9 +61,9 @@ public class Player {
 	}
 
 	private void move(Direction dir){
-		final double factor = camera.getBlockWidth()/6;
-		final String bDir = this.maze.getTileAt((int)Math.round(this.x/this.camera.getBlockWidth()), (int)Math.round(this.y/this.camera.getBlockWidth())).getDirection().toString();
-		if (!bDir.contains(dir.toString()) || moving){
+		final double factor = camera.getTileWidth()/6;
+		final String bDir = this.maze.getTileAt((int)Math.round(this.x/this.camera.getTileWidth()), (int)Math.round(this.y/this.camera.getTileWidth())).getDirection().toString();
+		if (!bDir.contains(dir.toString()) || moving || !this.maze.isRunning()){
 			return;
 		}
 		this.moving = true;
@@ -82,18 +82,20 @@ public class Player {
 					if (bDir.contains("W")) this.x -= factor;
 					break;
 			}
-			this.maze.getCamera().setX(this.x/this.maze.getCamera().getBlockWidth());
-			this.maze.getCamera().setY(this.y/this.maze.getCamera().getBlockWidth());
+			this.maze.getCamera().setX(this.x/this.maze.getCamera().getTileWidth());
+			this.maze.getCamera().setY(this.y/this.maze.getCamera().getTileWidth());
 			System.out.format("%.2f %.2f\n", this.x, this.y);
 		}));
 		t.setCycleCount(6);
 		t.play();
 		t.setOnFinished(event -> {
 			this.moving = false;
-                        if ((int)(this.x/this.maze.getCamera().getBlockWidth()) == this.maze.getWidth()-1 && (int)(this.y/this.maze.getCamera().getBlockWidth()) == this.maze.getHeight()-1){
-                            System.out.println("MAZE FINISHED!!!");
-                            System.out.println(this.maze.getTimeText());
-                        }
+			if ((int)Math.round(this.x/this.maze.getCamera().getTileWidth()) == this.maze.getWidth()-1 && (int)Math.round(this.y/this.maze.getCamera().getTileWidth()) == this.maze.getHeight()-1){
+				System.out.println("MAZE FINISHED!!!");
+				System.out.println(this.maze.getTimeText());
+				this.maze.stopMainloop();
+				Screens.getHomeScreen(gc).display();
+			}
 		});
 	}
 
@@ -102,7 +104,7 @@ public class Player {
 	 */
 	public void display(){
 		gc.setFill(Color.web(imagePath));
-		gc.fillRect(camera.getWallWidth()*2, camera.getWallWidth()*2, camera.getBlockWidth()-camera.getWallWidth()*4, camera.getBlockWidth()-camera.getWallWidth()*4);
+		gc.fillRect(camera.getWallWidth()*2, camera.getWallWidth()*2, camera.getTileWidth()-camera.getWallWidth()*4, camera.getTileWidth()-camera.getWallWidth()*4);
 	}
 
 	@Override

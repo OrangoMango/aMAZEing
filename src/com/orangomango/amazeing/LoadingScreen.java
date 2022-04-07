@@ -25,11 +25,14 @@ public class LoadingScreen {
 
     public LoadingScreen(Stage stage){
         this.stage = stage;
-        Profile.prepareDirectory();
     }
 
     public void setOnFinish(FinishedEvent ev){
         this.onFinish = ev;
+    }
+
+    public void finish(){
+        this.onFinish.finish();
     }
 
     private static void deleteDirectory(File directoryToBeDeleted) {
@@ -63,6 +66,7 @@ public class LoadingScreen {
     }
 
     public Scene getScene(){
+        Profile.prepareDirectory();
         GridPane pane = new GridPane();
         Label info = new Label("Downloading resources...");
         info.setStyle("-fx-font-size: 18");

@@ -3,6 +3,8 @@ package com.orangomango.amazeing.ui.scene;
 import javafx.scene.canvas.*;
 
 import com.orangomango.amazeing.game.*;
+import static com.orangomango.amazeing.Main.DEFAULT_HEIGHT;
+import static com.orangomango.amazeing.Main.DEFAULT_WIDTH;
 
 public class MazeDisplay extends Screen {
 	private int width, height;
@@ -18,13 +20,19 @@ public class MazeDisplay extends Screen {
 	@Override
 	public void display(){
 		clearScreen();
+
+		double factorX = gc.getCanvas().getWidth()/DEFAULT_WIDTH;
+		double factorY = gc.getCanvas().getHeight()/DEFAULT_HEIGHT;
+
 		System.out.println("Generating maze...");
 		
 		Maze maze = new Maze(this.width, this.height, this.seed);
 		Camera camera = maze.getCamera();
-		camera.setBlockWidth(100);
+		camera.setTileWidth(100);
 		camera.setWallWidth(10); // 150 10
 		camera.setOffset(125, 110);
+		camera.setFovX(DEFAULT_WIDTH*factorX);
+		camera.setFovY(DEFAULT_HEIGHT*factorY);
 		
 		System.out.println("Done!");
 		System.out.println("Maze:\n"+maze);

@@ -3,16 +3,17 @@ package com.orangomango.amazeing.game;
 public class Camera {
 	private double x;
 	private double y;
-	private double blockWidth = 32;
+	private double tileWidth = 32;
 	private double wallWidth = 1.5;
-	private int fovX, fovY;
+	private double fovX, fovY;
 	private double offsetX, offsetY;
+	private int wx, wy;
 
-	public Camera(double x, double y, int fx, int fy){
+	public Camera(double x, double y, int wx, int wy){
 		this.x = x;
 		this.y = y;
-		this.fovX = fx;
-		this.fovY = fy;
+		this.wx = wx;
+		this.wy = wy;
 	}
 
 	public void setOffset(double x, double y){
@@ -52,19 +53,27 @@ public class Camera {
 		return this.wallWidth;
 	}
 
-	public void setBlockWidth(double value){
-		this.blockWidth = value;
+	public void setTileWidth(double value){
+		this.tileWidth = value;
 	}
 	
-	public double getBlockWidth(){
-		return this.blockWidth;
+	public double getTileWidth(){
+		return this.tileWidth;
 	}
 
-	public int getFovX(){
+	public void setFovX(double value){ this.fovX = value; }
+
+	public void setFovY(double value){ this.fovY = value; }
+
+	public double getFovX(){
 		return this.fovX;
 	}
 
-	public int getFovY(){
+	public double getFovY(){
 		return this.fovY;
 	}
+
+	public int getWorldWidth(){ return this.wx; }
+
+	public int getWorldHeight(){ return this.wy; }
 }

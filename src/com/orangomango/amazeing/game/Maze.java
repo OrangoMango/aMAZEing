@@ -41,7 +41,7 @@ public class Maze {
 		return this.camera;
 	}
         
-        public String getTimeText(){
+    public String getTimeText(){
             return this.timeText;
         }
 	
@@ -184,12 +184,12 @@ public class Maze {
 	}
 
 	public void draw(GraphicsContext gc){
-                gc.save();
+		gc.save();
 		gc.clearRect(0, 0, gc.getCanvas().getWidth(), gc.getCanvas().getHeight());
 		gc.translate(this.camera.getOffsetX(), this.camera.getOffsetY());
 		gc.setStroke(Color.BLACK);
 		gc.setLineWidth(camera.getWallWidth());
-		gc.strokeRect((0-camera.getX())*camera.getBlockWidth(), (0-camera.getY())*camera.getBlockWidth(), camera.getFovX()*camera.getBlockWidth(), camera.getFovY()*camera.getBlockWidth());
+		gc.strokeRect((0-camera.getX())*camera.getTileWidth(), (0-camera.getY())*camera.getTileWidth(), camera.getWorldWidth()*camera.getTileWidth(), camera.getWorldHeight()*camera.getTileWidth());
 		for (Tile[] tL : this.maze){
 			for (Tile t : tL){
 				t.draw(gc, this.camera);

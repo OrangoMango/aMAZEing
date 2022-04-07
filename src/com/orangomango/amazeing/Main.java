@@ -78,10 +78,13 @@ public class Main extends Application {
             gameStage.setScene(new Scene(new TilePane(canvas), DEFAULT_WIDTH, DEFAULT_HEIGHT));
             gameStage.show();
         });
-        
-        stage.initStyle(StageStyle.UNDECORATED);
-        stage.setScene(loading.getScene());
-        stage.show();
+        if ((new File(GAME_HOME)).exists()){
+            loading.finish();
+        } else {
+            stage.initStyle(StageStyle.UNDECORATED);
+            stage.setScene(loading.getScene());
+            stage.show();
+        }
     }
 
     private void updateCanvas(Canvas canvas) {

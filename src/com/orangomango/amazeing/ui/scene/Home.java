@@ -35,6 +35,7 @@ public class Home extends Screen {
 		Button help = new Button(gc, 230*factorX, 190*factorY, 150*factorX, 200*factorY, 173, 1, 120, 160);
 		help.setOnClick(() -> Screens.getHelpScreen(gc).display());
 		Button upgrades = new Button(gc, 420*factorX, 190*factorY, 150*factorX, 200*factorY, 1, 163, 120, 160);
+		upgrades.setOnClick(() -> Screens.getUpgradesScreen(gc).display());
 		Button settings = new Button(gc, 610*factorX, 190*factorY, 150*factorX, 200*factorY, 123, 163, 120, 160);
 		settings.setOnClick(() -> Screens.getSettingsScreen(gc).display());
 		
