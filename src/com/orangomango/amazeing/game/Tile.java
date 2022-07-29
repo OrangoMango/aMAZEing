@@ -10,7 +10,7 @@ public class Tile {
 	private int x, y;
 	public boolean visited;
 	private Direction direction;
-        private Image image = new Image(SPRITESHEET);
+    private static Image image = new Image(SPRITESHEET);
 
 	public Tile(int x, int y, Direction dir){
 		this.x = x;

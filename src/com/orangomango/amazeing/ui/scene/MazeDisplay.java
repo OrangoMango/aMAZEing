@@ -28,8 +28,9 @@ public class MazeDisplay extends Screen {
 		
 		Maze maze = new Maze(this.width, this.height, this.seed);
 		Camera camera = maze.getCamera();
-		camera.setTileWidth(100);
-		camera.setWallWidth(10); // 150 10
+		// 100 10
+		camera.setTileWidth(75);
+		camera.setWallWidth(7.5);
 		camera.setOffset(125, 110);
 		camera.setFovX(DEFAULT_WIDTH*factorX);
 		camera.setFovY(DEFAULT_HEIGHT*factorY);

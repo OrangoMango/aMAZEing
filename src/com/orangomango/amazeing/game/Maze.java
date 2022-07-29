@@ -153,7 +153,7 @@ public class Maze {
 				long seconds = millis/1000L;
 				millis -= seconds*1000;
 				String txt = String.format("%s.%s", seconds, millis);
-                                this.timeText = txt.substring(0, txt.length()-1);
+                this.timeText = txt.substring(0, txt.length()-1);
 			}
 		}));
 		loop.setCycleCount(Animation.INDEFINITE);

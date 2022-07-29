@@ -28,7 +28,7 @@ public class Main extends Application {
     /**
      * Game Frames Per Second
      */
-    public static final double FPS = 100;
+    public static final double FPS = 30;
     private Stage stage;
     public static Screens CURRENT_SCREEN = Screens.HOME;
 
